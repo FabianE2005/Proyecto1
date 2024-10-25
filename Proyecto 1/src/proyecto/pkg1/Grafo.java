@@ -120,13 +120,36 @@ public class Grafo {
         pasos=-1;
         marcados = new Lista();
         marcados.insertarFinal(origen);
-        recorridoBFS(origen,t);
+        recorridoDFS(origen,t, pasos);
         
         
             return marcados;
+            
+        
+    }
+   private void recorridoDFS(int origen, int t, int pasos) {
+    // Recorre el grafo de forma DFS
+    visitados[origen] = true;
+    pasos++;
+    Lista<Adyacente> ady = adyacentes[origen];
+    Nodo<Adyacente> nodoAdyacente = ady.getPfirst();
+    // Marca el nodo si se cumple la condición
+    if (pasos== t) {
+        marcados.insertarFinal(origen);
+        pasos =0;
     }
     
-    private void recorridoBFS(int origen, int t) {
+    int i=0;
+    while (nodoAdyacente != null) {
+        i = nodoAdyacente.getElement().getDestino();
+        if (!visitados[i]) {
+            recorridoDFS(i,t, pasos);
+        }
+        nodoAdyacente = nodoAdyacente.getPnext();
+    }
+}
+   
+private void recorridoBFS(int origen, int t) {
         Cola<Integer> queue = new Cola();
         queue.add(origen);
         visitados[origen] = true;
@@ -155,5 +178,4 @@ public class Grafo {
             }
         }
     }
-    
 }
