@@ -114,4 +114,46 @@ public class Grafo {
         return res;      
     }
     
+    public Lista marcador(int t, int origen){
+        //Muestra el numero de islas 
+        visitados = new boolean[numV];
+        pasos=-1;
+        marcados = new Lista();
+        marcados.insertarFinal(origen);
+        recorridoBFS(origen,t);
+        
+        
+            return marcados;
+    }
+    
+    private void recorridoBFS(int origen, int t) {
+        Cola<Integer> queue = new Cola();
+        queue.add(origen);
+        visitados[origen] = true;
+        int pasos = 0;
+
+        while (!queue.isEmpty()) {
+            int actual = queue.dequeue();
+            pasos++;
+            
+            // Marca el nodo si se cumple la condición
+            if (pasos == t) {
+                marcados.insertarFinal(actual);
+                pasos = 0;
+            }
+
+            Lista<Adyacente> ady = adyacentes[actual];  // Asumiendo que adyacentes está definido
+            Nodo<Adyacente> nodoAdyacente = ady.getPfirst();
+
+            while (nodoAdyacente != null) {
+                int destino = nodoAdyacente.getElement().getDestino();
+                if (!visitados[destino]) {
+                    queue.add(destino);
+                    visitados[destino] = true;
+                }
+                nodoAdyacente = nodoAdyacente.getPnext();
+            }
+        }
+    }
+    
 }
