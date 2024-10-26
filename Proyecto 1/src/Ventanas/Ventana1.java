@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import proyecto.pkg1.GrafoInterfaz;
-import static proyecto.pkg1.GrafoInterfaz.t;
+import static proyecto.pkg1.GrafoInterfaz.*;
 import static proyecto.pkg1.Proyecto1.bogota;
 import static proyecto.pkg1.Proyecto1.caracas;
 import static proyecto.pkg1.Proyecto1.extraerGrafo;
@@ -147,11 +147,12 @@ public class Ventana1 extends javax.swing.JFrame {
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage()+ "\nTry again");
         }
+        tselect.setText("");
     }//GEN-LAST:event_cambiartActionPerformed
 
     private void MostrarGrafoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarGrafoActionPerformed
         String linea = lineaselect.getItemAt(lineaselect.getSelectedIndex());
-        
+        origen = inicioParada.getSelectedIndex();
         if (linea=="Caracas") {
           GrafoInterfaz.muestragrafo(t, caracas);  
         }else if (linea=="Bogota") {
@@ -183,8 +184,6 @@ public class Ventana1 extends javax.swing.JFrame {
         inicioParada.removeAllItems();
         for (int i = 0; i < miGrafo.getUsuarios().length; i++) {
             String nombre = miGrafo.getUsuarios()[i].getNickname();
-            Object id = miGrafo.getUsuarios()[i].getId();
-            System.out.println(id);
             inicioParada.addItem(nombre);
             
         }

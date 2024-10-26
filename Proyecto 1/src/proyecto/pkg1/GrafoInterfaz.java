@@ -20,7 +20,8 @@ import static proyecto.pkg1.Proyecto1.miGrafo;
  * @author Diego
  */
 public class GrafoInterfaz {
-    public static int t = 3;
+    public static int t = 2;
+    public static int origen=0;
    public static void traverseNodes(Arista[] nodes, int x, Usuario[] usuario, Graph graph) {
 
         Map<Integer, Integer> nodeMap = new HashMap<>();
@@ -98,7 +99,7 @@ public class GrafoInterfaz {
         }
             }
 //            System.out.println(usuarios[6].getNickname());
-            int origen = usuarios[6-1].getId();
+//            int origen = usuarios[6-1].getId();
             
             marcadorverde(graph,usuarios,aristas,t, origen);
             
