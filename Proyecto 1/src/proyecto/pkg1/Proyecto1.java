@@ -61,7 +61,6 @@ public static Grafo extraerGrafo(File file) {
                             idpast=idencontrado;
                             linea=2;
                     }else{
-                        System.out.println("entro a la lista el "+line);
                         String data = id+ "," + line.replace("\"", "").replace(",", "").trim();
                         String[] parts = data.split(",");
                         for(int i = 0; i < parts.length; i++) parts[i] = parts[i].trim();
@@ -107,10 +106,6 @@ public static Grafo extraerGrafo(File file) {
             while (activo != null){
                 
                 int[] data = (int[]) activo.getElement();
-                System.out.println(data[0]+ " datazo "+ data[1]);
-                if (data[0]==data[1]) {
-                    System.out.println("iguales");
-                }
                 res.insertarAristaValor(data[0], data[1]);
                 
                 activo = activo.getPnext();
@@ -121,7 +116,6 @@ public static Grafo extraerGrafo(File file) {
             JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage()+ "\nTry again");
            
         }
-         
          
         return res;
         

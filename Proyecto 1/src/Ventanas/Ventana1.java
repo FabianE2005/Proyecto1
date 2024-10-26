@@ -6,7 +6,14 @@ package Ventanas;
 
 import java.awt.Color;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import proyecto.pkg1.GrafoInterfaz;
+import static proyecto.pkg1.GrafoInterfaz.t;
+import static proyecto.pkg1.Proyecto1.bogota;
+import static proyecto.pkg1.Proyecto1.caracas;
+import static proyecto.pkg1.Proyecto1.extraerGrafo;
+import static proyecto.pkg1.Proyecto1.miGrafo;
 
 
 /**
@@ -14,12 +21,13 @@ import javax.swing.JPanel;
  * @author Fabián Espinoza
  */
 public class Ventana1 extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form Ventana1
      */
     public Ventana1() {
         initComponents();
+        tactual.setText(t+"");
     }
 
     /**
@@ -37,7 +45,7 @@ public class Ventana1 extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         lineaselect = new javax.swing.JComboBox<>();
         escogerRed = new javax.swing.JButton();
-        t = new javax.swing.JLabel();
+        tactual = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         tselect = new javax.swing.JTextField();
         cambiart = new javax.swing.JButton();
@@ -56,29 +64,58 @@ public class Ventana1 extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lineaselect.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Caracas", "Bogota", "Otro" }));
+        lineaselect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lineaselectActionPerformed(evt);
+            }
+        });
         jPanel2.add(lineaselect, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 80, 100, -1));
 
         escogerRed.setText("Escoger red");
         escogerRed.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        escogerRed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                escogerRedActionPerformed(evt);
+            }
+        });
         jPanel2.add(escogerRed, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 100, 40));
 
-        t.setBackground(new java.awt.Color(0, 0, 0));
-        t.setForeground(new java.awt.Color(0, 0, 0));
-        t.setText("3");
-        jPanel2.add(t, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, -1, -1));
+        tactual.setBackground(new java.awt.Color(0, 0, 0));
+        tactual.setText("3");
+        jPanel2.add(tactual, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, -1, -1));
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("valor actual de t:");
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 0, 100, -1));
+
+        tselect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tselectActionPerformed(evt);
+            }
+        });
         jPanel2.add(tselect, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 30, 30));
 
         cambiart.setText("Seleccionar t");
+        cambiart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cambiartActionPerformed(evt);
+            }
+        });
         jPanel2.add(cambiart, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 100, 30));
 
+        inicioParada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inicioParadaActionPerformed(evt);
+            }
+        });
         jPanel2.add(inicioParada, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 130, 30));
 
         MostrarGrafo.setText("Mostrar Grafo");
+        MostrarGrafo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MostrarGrafoActionPerformed(evt);
+            }
+        });
         jPanel2.add(MostrarGrafo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 110, 50));
 
         Fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo.png"))); // NOI18N
@@ -88,19 +125,74 @@ public class Ventana1 extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 775, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cambiartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambiartActionPerformed
+        
+        try{
+            t = Integer.parseInt(tselect.getText());
+            if (t>=1) {
+               tactual.setText(tselect.getText()); 
+            }else{
+                JOptionPane.showMessageDialog(null, "Error: Numero invalido\nTry again");
+            }
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage()+ "\nTry again");
+        }
+    }//GEN-LAST:event_cambiartActionPerformed
+
+    private void MostrarGrafoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarGrafoActionPerformed
+        String linea = lineaselect.getItemAt(lineaselect.getSelectedIndex());
+        
+        if (linea=="Caracas") {
+          GrafoInterfaz.muestragrafo(t, caracas);  
+        }else if (linea=="Bogota") {
+          GrafoInterfaz.muestragrafo(t, bogota);  
+        }else{
+            System.out.println("poner esta opcion");
+        }
+        
+    }//GEN-LAST:event_MostrarGrafoActionPerformed
+
+    private void tselectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tselectActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tselectActionPerformed
+
+    private void lineaselectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineaselectActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lineaselectActionPerformed
+
+    private void escogerRedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_escogerRedActionPerformed
+        String linea = lineaselect.getItemAt(lineaselect.getSelectedIndex());
+        
+        if (linea=="Caracas") {
+          miGrafo = extraerGrafo(caracas);
+        }else if (linea=="Bogota") {
+          miGrafo = extraerGrafo(bogota);
+        }else{
+            System.out.println("poner esta opcion");
+        }
+        inicioParada.removeAllItems();
+        for (int i = 0; i < miGrafo.getUsuarios().length; i++) {
+            String nombre = miGrafo.getUsuarios()[i].getNickname();
+            Object id = miGrafo.getUsuarios()[i].getId();
+            System.out.println(id);
+            inicioParada.addItem(nombre);
+            
+        }
+    }//GEN-LAST:event_escogerRedActionPerformed
+
+    private void inicioParadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inicioParadaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inicioParadaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -150,7 +242,7 @@ public class Ventana1 extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JComboBox<String> lineaselect;
-    private javax.swing.JLabel t;
+    private javax.swing.JLabel tactual;
     private javax.swing.JTextField tselect;
     // End of variables declaration//GEN-END:variables
 

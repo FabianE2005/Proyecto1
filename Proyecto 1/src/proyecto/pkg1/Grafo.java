@@ -178,4 +178,29 @@ private void recorridoBFS(int origen, int t) {
             }
         }
     }
+
+    public Arista[] getAristas(){
+        //Debuelve las aristas con los usuarios
+        Arista[] res = new Arista[numA];
+        Lista<Arista> lista = new Lista();
+        
+         int j = 0;
+         for (int i = 0; i < numV; i++) {
+            if (adyacentes[i] != null) {
+                Lista<Adyacente> listaAdyacentes = adyacentes[i];
+                Nodo<Adyacente> nodoAdyacente = listaAdyacentes.getPfirst();
+                while (nodoAdyacente != null) {
+                    Arista arista = new Arista(i, nodoAdyacente.getElement().getDestino());
+                    if(!lista.contains(arista)){
+                        lista.insertarInicio(arista);
+                        res[j++] = arista;
+                    
+                    }
+                    nodoAdyacente = nodoAdyacente.getPnext();
+                }
+                
+            }
+        }
+        return res;
+    }
 }
