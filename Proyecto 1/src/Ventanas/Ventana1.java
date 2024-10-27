@@ -5,15 +5,16 @@
 package Ventanas;
 
 import java.awt.Color;
+import java.io.File;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import proyecto.pkg1.GrafoInterfaz;
 import static proyecto.pkg1.GrafoInterfaz.*;
-import static proyecto.pkg1.Proyecto1.bogota;
-import static proyecto.pkg1.Proyecto1.caracas;
-import static proyecto.pkg1.Proyecto1.extraerGrafo;
-import static proyecto.pkg1.Proyecto1.miGrafo;
+import proyecto.pkg1.Proyecto1;
+import static proyecto.pkg1.Proyecto1.*;
 
 
 /**
@@ -21,7 +22,7 @@ import static proyecto.pkg1.Proyecto1.miGrafo;
  * @author Fabián Espinoza
  */
 public class Ventana1 extends javax.swing.JFrame {
-    
+    public static File archivo;
     /**
      * Creates new form Ventana1
      */
@@ -51,6 +52,7 @@ public class Ventana1 extends javax.swing.JFrame {
         cambiart = new javax.swing.JButton();
         inicioParada = new javax.swing.JComboBox<>();
         MostrarGrafo = new javax.swing.JButton();
+        Nuevalinea = new javax.swing.JButton();
         Fondo = new javax.swing.JLabel();
 
         jMenu1.setText("File");
@@ -118,6 +120,14 @@ public class Ventana1 extends javax.swing.JFrame {
         });
         jPanel2.add(MostrarGrafo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 110, 50));
 
+        Nuevalinea.setText("nueva linea");
+        Nuevalinea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NuevalineaActionPerformed(evt);
+            }
+        });
+        jPanel2.add(Nuevalinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, -1));
+
         Fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo.png"))); // NOI18N
         jPanel2.add(Fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 360));
 
@@ -154,11 +164,15 @@ public class Ventana1 extends javax.swing.JFrame {
         String linea = lineaselect.getItemAt(lineaselect.getSelectedIndex());
         origen = inicioParada.getSelectedIndex();
         if (linea=="Caracas") {
-          GrafoInterfaz.muestragrafo(t, caracas);  
+          GrafoInterfaz.muestragrafo(t, Transporte);  
         }else if (linea=="Bogota") {
-          GrafoInterfaz.muestragrafo(t, bogota);  
+          GrafoInterfaz.muestragrafo(t, Transporte);  
         }else{
-            System.out.println("poner esta opcion");
+            if (miGrafo==null){
+               JOptionPane.showMessageDialog(null, "Error\ninsertar un archivo compatible"); 
+            }else{
+                GrafoInterfaz.muestragrafo(t, Transporte);
+            }
         }
         
     }//GEN-LAST:event_MostrarGrafoActionPerformed
@@ -172,6 +186,7 @@ public class Ventana1 extends javax.swing.JFrame {
     }//GEN-LAST:event_lineaselectActionPerformed
 
     private void escogerRedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_escogerRedActionPerformed
+        Proyecto1.FormateoGrafo();
         String linea = lineaselect.getItemAt(lineaselect.getSelectedIndex());
         
         if (linea=="Caracas") {
@@ -179,7 +194,27 @@ public class Ventana1 extends javax.swing.JFrame {
         }else if (linea=="Bogota") {
           miGrafo = extraerGrafo(bogota);
         }else{
-            System.out.println("poner esta opcion");
+            try{
+        JFileChooser file=new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto","json");
+        file.setFileFilter(filter);
+       
+        file.showOpenDialog(file);
+        archivo=file.getSelectedFile();
+        int result = file.getDialogType();
+        if (result == JFileChooser.APPROVE_OPTION) {
+        miGrafo = extraerGrafo(archivo);
+        }else{
+             JOptionPane.showMessageDialog(null, "La carga de archivo se ha cancelado");
+             
+        }
+            if (miGrafo==null) {
+               JOptionPane.showMessageDialog(null, "Error");
+            }
+         
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error\ninsertar un archivo compatible");
+        }
         }
         inicioParada.removeAllItems();
         for (int i = 0; i < miGrafo.getUsuarios().length; i++) {
@@ -192,6 +227,36 @@ public class Ventana1 extends javax.swing.JFrame {
     private void inicioParadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inicioParadaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inicioParadaActionPerformed
+
+    private void NuevalineaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NuevalineaActionPerformed
+        
+            try{
+        JFileChooser file=new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto","json");
+        file.setFileFilter(filter);
+       
+        file.showOpenDialog(file);
+        archivo=file.getSelectedFile();
+        int result = file.getDialogType();
+        if (result == JFileChooser.APPROVE_OPTION) {
+        miGrafo = agregarlinea(archivo);
+        }else{
+             JOptionPane.showMessageDialog(null, "La carga de archivo se ha cancelado");
+             
+        }
+            if (miGrafo==null) {
+               JOptionPane.showMessageDialog(null, "Error");
+            }
+         inicioParada.removeAllItems();
+        for (int i = 0; i < miGrafo.getUsuarios().length; i++) {
+            String nombre = miGrafo.getUsuarios()[i].getNickname();
+            inicioParada.addItem(nombre);
+            
+        }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error\ninsertar un archivo compatible");
+        }
+    }//GEN-LAST:event_NuevalineaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -219,7 +284,7 @@ public class Ventana1 extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Ventana1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+        Proyecto1.FormateoGrafo();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -232,6 +297,7 @@ public class Ventana1 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Fondo;
     private javax.swing.JButton MostrarGrafo;
+    private javax.swing.JButton Nuevalinea;
     private javax.swing.JButton cambiart;
     private javax.swing.JButton escogerRed;
     private javax.swing.JComboBox<String> inicioParada;

@@ -5,9 +5,12 @@
 package proyecto.pkg1;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
+import proyecto.pkg1.*;
 
 /**
  *
@@ -17,24 +20,37 @@ public class Proyecto1 {
     public static Grafo miGrafo;
     public static File caracas = new File("src\\Archivos\\caracas.json");
     public static File bogota = new File("src\\Archivos\\bogota.json");
-    
+    public static File Transporte = new File("src\\Archivos\\Transporte.txt");
+    public static Lista<Usuario> verticesList = new Lista();
+    public static Lista aristasList = new Lista();
+    public static FileWriter fileWriter;
+
+public static void FormateoGrafo(){
+    try{
+    fileWriter = new FileWriter(Transporte);
+    PrintWriter printWriter = new PrintWriter(fileWriter);
+    }catch (Exception e){
+        
+    }
+}
+        
 public static Grafo extraerGrafo(File file) {
         // TODO code application logic here
         
         Grafo res = null;
-        Lista<Usuario> verticesList = new Lista();
-        Lista aristasList = new Lista();
+        verticesList = new Lista();
+        aristasList = new Lista();
         //scanea el file
          try {
             Scanner scanner = new Scanner(file);
-            if(scanner.hasNextLine()) scanner.nextLine();
+            PrintWriter printWriter = new PrintWriter(fileWriter);
             int id =1;
-                scanner.nextLine();
-                scanner.nextLine();
             int idpast = 0;
             int linea = 0;
             while (scanner.hasNextLine()) {
+                
                 String line = scanner.nextLine();
+                printWriter.println(line);
                 
                 if (linea==1) {
                     idpast=id;
@@ -110,6 +126,7 @@ public static Grafo extraerGrafo(File file) {
                 
                 activo = activo.getPnext();
             }
+            printWriter.close();
             scanner.close();
                 
         } catch (Exception e) {
@@ -120,4 +137,29 @@ public static Grafo extraerGrafo(File file) {
         return res;
         
     }
+public static Grafo agregarlinea(File file) {
+    try{
+            Scanner scannerold = new Scanner(Transporte);
+            Scanner scannernew = new Scanner(file);
+            String guardar = "";
+        while (scannerold.hasNextLine()) {
+                
+                String line = scannerold.nextLine();
+                guardar = guardar+"\n"+line;
+}
+        fileWriter = new FileWriter(Transporte);
+        PrintWriter printWriter = new PrintWriter(fileWriter);  
+        printWriter.println(guardar);
+        while (scannernew.hasNextLine()) {
+                
+                String line = scannernew.nextLine();
+                printWriter.println(line);
+}
+        printWriter.close();
+        return extraerGrafo(Transporte);
+         } catch (Exception e) {
+    JOptionPane.showMessageDialog(null, "File not found: " + e.getMessage()+ "\nTry again");
+}
+return miGrafo;
+}
 }
